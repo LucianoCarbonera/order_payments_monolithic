@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedido Realizado com Sucesso</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container mt-5">
+    <div class="card text-center">
+        <div class="card-header bg-success text-white">
+            <h1 class="card-title">Pedido Realizado com Sucesso!</h1>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="order_id">Selecione um Pedido:</label>
+                    <select name="order_id" id="order_id" class="form-control" onchange="this.form.submit()">
+                        <option value="">Selecione...</option>
+                        {% for order in orders %}
+                            <option value="{{ order.pk }}" {% if selected_order and order.pk == selected_order.pk %}selected{% endif %}>
+                                Pedido {{ order.pk }} - {{ order.product_name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </form>
+            {% if selected_order %}
+                <div class="order-details mb-4 mt-4">
+                    <p class="card-text"><strong>ID do Pedido:</strong> {{ selected_order.pk }}</p>
+                    <p class="card-text"><strong>Produto:</strong> {{ selected_order.product_name }}</p>
+                    <p class="card-text"><strong>Quantidade:</strong> {{ selected_order.quantity }}</p>
+                    <p class="card-text"><strong>Preço Total:</strong> R$ {{ selected_order.price }}</p>
+                    <p class="card-text"><strong>Status:</strong> {{ selected_order.get_status_display }}</p>
+                </div>
+                <a href="{% url 'thanks_with_id' selected_order.pk %}" class="btn btn-success mr-2">Atualizar Status</a>
+            {% endif %}
+            <a href="/" class="btn btn-primary">Voltar para a Página Inicial</a>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

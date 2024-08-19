@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Pagamentos</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h1 class="card-title text-center">Lista de Pagamentos</h1>
+        </div>
+        <ul class="list-group list-group-flush">
+            {% for payment in payments %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div class="payment-info">
+                        <span>ID da Transação: {{ payment.transaction_id }}</span>
+                        <span>ID do Pedido: {{ payment.order_id }}</span>
+                    </div>
+                    <span class="amount text-primary font-weight-bold">Valor: R$ {{ payment.amount }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
