@@ -1,12 +1,19 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+
 from .models import Order, Payment
 from decimal import Decimal, InvalidOperation
 
+
+@method_decorator(csrf_exempt, name='dispatch')
 class HomeView(View):
     def get(self, request):
         return render(request, 'home.html')
 
+
+@method_decorator(csrf_exempt, name='dispatch')
 class CreateOrderView(View):
     def get(self, request):
         return render(request, 'order_form.html')
@@ -35,6 +42,8 @@ class CreateOrderView(View):
         # Redireciona para a página de agradecimento
         return redirect('thanks', order_id=order.id)
 
+
+@method_decorator(csrf_exempt, name='dispatch')
 class ThanksView(View):
     def get(self, request, order_id=None):
         orders = Order.objects.all()
@@ -51,6 +60,8 @@ class ThanksView(View):
             return redirect('thanks_with_id', order_id=order_id)
         return self.get(request)
 
+
+@method_decorator(csrf_exempt, name='dispatch')
 class PaymentsListView(View):
     def get(self, request):
         payments = Payment.objects.all()
